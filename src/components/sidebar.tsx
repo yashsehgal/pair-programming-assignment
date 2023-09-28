@@ -9,7 +9,7 @@ const Sidebar: React.FunctionComponent<React.HTMLAttributes<HTMLDivElement> & an
   ...props
 }) => {
   return (
-    <nav className={cn("h-screen w-[320px] bg-neutral-200 flex gap-6 flex-col items-stretch p-6 justify-start",
+    <nav className={cn("h-screen w-[320px] bg-neutral-200 flex gap-6 flex-col items-stretch p-6 justify-start max-md:h-fit max-md:w-screen max-md:flex-row",
       "shadow-inner",
       className)}
       {...props}
@@ -21,6 +21,7 @@ const Sidebar: React.FunctionComponent<React.HTMLAttributes<HTMLDivElement> & an
             members={data[team]}
             toggleTeamView={toggleTeamView}
             currentTeamView={currentTeamView}
+            key={index}
           />
         )
       })}
@@ -50,7 +51,7 @@ const TeamOption: React.FunctionComponent<TeamOptionProps & any> = ({
       <div className={cn("team-content-wrapper text-left")}>
         <h2>{teamName}</h2>
         <div className="members-avatar-wrapper mt-2">
-          {!members && <p className="text-sm font-normal text-neutral-400 select-none">
+          {members?.length === 0 && <p className="text-sm font-normal text-neutral-400 select-none">
             {"No members"}
           </p>}
           {members && <div className="flex flex-row items-center justify-start">
@@ -58,7 +59,7 @@ const TeamOption: React.FunctionComponent<TeamOptionProps & any> = ({
               console.log("member name", memberName);
               if (index < 4) {
                 return (
-                  <div className="w-6 h-6 flex flex-row items-center justify-center rounded-full text-sm text-neutral-100 bg-neutral-800 -mr-2"
+                  <div className="w-6 h-6 flex flex-row items-center justify-center rounded-full text-xs text-neutral-100 bg-neutral-800 -mr-2"
                     key={index}
                   >
                     {nameInitials(memberName.name)}

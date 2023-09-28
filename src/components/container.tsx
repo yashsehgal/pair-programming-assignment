@@ -25,7 +25,7 @@ const Container: React.FunctionComponent<React.HTMLAttributes<HTMLDivElement>> =
   const toggleTeamView = (teamName: TeamType) => setTeamView(teamName);
 
   return (
-    <div className={cn("main-container flex flex-row items-start justify-start gap-6")} {...props}>
+    <div className={cn("main-container flex flex-row items-start justify-start gap-6 max-md:flex-col max-md:items-stretch max-md:justify-start")} {...props}>
       <Sidebar
         data={dashboardData}
         teamView={teamView}

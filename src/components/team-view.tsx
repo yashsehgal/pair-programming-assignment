@@ -1,10 +1,39 @@
+import { useEffect } from "react";
 import { nameInitials } from "../helpers/name-initials";
 
 const TeamView: React.FunctionComponent<any> = ({ teamView, dashboardData, setDashboardData }) => {
 
   const loadDataFromLocalStorage = () => {
+    let _data = {
+      "engineering": [],
+      "product": [],
+      "support": []
+    };
 
+    // Looking for all teams data
+    ["Engineering", "Support", "Product"].map((teamName) => {
+      if (!localStorage.getItem(teamName)) {
+        localStorage.setItem(teamName, JSON.stringify([]));
+      } else {
+        // @ts-ignore
+        _data[teamName] = JSON.parse(localStorage.getItem(teamName) as string);
+      }
+    });
+
+    setDashboardData(_data);
+
+    console.log("data from local-storage", dashboardData);
   };
+
+  // Loading data at pre-render...
+  useEffect(() => {
+    loadDataFromLocalStorage();
+  }, []);
+
+  // Loading data again at every teamView change...
+  useEffect(() => {
+    loadDataFromLocalStorage();
+  }, [teamView]);
 
   const saveDataToTeam = (memberName: string) => {
     let _data: any[] = [];
@@ -19,9 +48,9 @@ const TeamView: React.FunctionComponent<any> = ({ teamView, dashboardData, setDa
       id: Math.floor(Math.random() * 10 ** 4)
     });
 
-    // saving in the storage
+    // saving in the storage...
     localStorage.setItem(teamView, JSON.stringify(_data));
-    // saving into state
+    // saving into state...
     setDashboardData({
       ...dashboardData,
       [teamView]: _data
